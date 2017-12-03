@@ -1,8 +1,12 @@
 package GameSprites;
 
 import java.awt.*;
+import java.awt.geom.Arc2D;
+import java.awt.geom.Line2D;
 
 public class CircleSprite extends GameObject {
+    int OldX = 0;
+    int OldY = 0;
 
     public CircleSprite(int x, int y) {
         this.x = x;
@@ -33,15 +37,29 @@ public class CircleSprite extends GameObject {
         g.setColor(Color.GREEN);
         g.fillOval(this.x, this.y, this.width,this.height);
 
-        g.setColor(Color.RED);
-        g.drawLine(this.x+(this.width/2), this.y+(this.width/2), 300, 300);
-
         double rad = Math.atan2(300 - (y+(height/2)), (x+(width/2)) - 300);
-        int angle = (int) (rad * (180/Math.PI));
+        double angle = (rad * (180/Math.PI));
+        double radius = Math.sqrt( (((x+(width/2)) - 300)*((x+(width/2)) - 300)) + (((y+(height/2)) - 300)*((y+(height/2)) - 300)));
         if (angle < 0) { angle += 360; }
-        int radius = (int)Math.sqrt( ((x - 300)*(x - 300)) + ((y - 300)*(y - 300)));
-        g.drawArc(300-(radius/2) , 300-(radius/2), radius, radius,0, angle);
 
+        Stroke STROKE = new BasicStroke(3f);
+        Color ARC_COLOR = Color.red;
+        Arc2D arc = new Arc2D.Double(300-(radius) , 300-(radius), radius*2, radius*2, 0 , angle, Arc2D.OPEN);;
+        if ((OldX != x)||(OldY != y)){
+            OldX = x;
+            OldY = y;
+            System.out.println(rad+" - "+radius+" - "+angle);
+        }
 
+        Graphics2D g2 = (Graphics2D) g.create();
+        g2.setStroke(STROKE);
+        g2.setColor(ARC_COLOR);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.draw(new Line2D.Double(this.x+(this.width/2), this.y+(this.width/2), 300, 300));
+        if (arc != null) {
+            g2.draw(arc);
+        }
+        g2.dispose();
     }
 }
