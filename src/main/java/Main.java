@@ -17,8 +17,8 @@ public class Main extends Canvas implements Runnable, MouseListener, MouseMotion
     private Handler handler = new Handler();
 
     public Main(){
-        CircleSprite test = new CircleSprite(100, 20);
-        CircleSprite test2 = new CircleSprite(100, 100);
+        CircleSprite test = new CircleSprite(20, 100);
+        CircleSprite test2 = new CircleSprite(100, 140);
         handler.addObject(test);
         handler.addObject(test2);
         new View(800, 600, "Spinny", this);
@@ -46,8 +46,9 @@ public class Main extends Canvas implements Runnable, MouseListener, MouseMotion
                 render();
             frames++;
             if(System.currentTimeMillis() - timer > 1000) {
+                handler.fpstick();
                 timer += 1000;
-                System.out.println("FPS: "+ frames);
+                //System.out.println("FPS: "+ frames);
                 frames = 0; }
         } stop();
     }

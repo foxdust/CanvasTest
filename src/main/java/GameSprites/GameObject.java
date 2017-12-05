@@ -24,8 +24,11 @@ public abstract class GameObject implements Sprites {
     }
     public void tick(int mouseX, int mouseY){
         if (held){
-            x = mouseX-(width/2);
-            y = mouseY-(height/2);
+            setX(mouseX-(width/2));
+            setY(mouseY-(height/2));
         }
+    }
+    public void tick(){
+
     }
 }
