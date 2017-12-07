@@ -6,6 +6,10 @@ import java.awt.Graphics;
 public class Handler {
     private LinkedList<GameObject> sprites = new LinkedList<GameObject>();
 
+    public LinkedList getSprites(){
+        return sprites;
+    }
+
     public void tick(int mouseX, int mouseY){
         for (GameObject go:sprites
                 ) {

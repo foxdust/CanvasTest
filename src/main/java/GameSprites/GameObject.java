@@ -1,9 +1,13 @@
 package GameSprites;
 
+import java.util.LinkedHashSet;
+
 public abstract class GameObject implements Sprites {
     protected int x, y;
     protected int width, height;
     protected boolean held = false;
+    protected LinkedHashSet<Integer> keys = new LinkedHashSet<>();
+
     public GameObject(){
         width = 32;
         height = 32;
@@ -30,5 +34,8 @@ public abstract class GameObject implements Sprites {
     }
     public void tick(){
 
+    }
+    public void setKeys(LinkedHashSet keys){
+        this.keys = keys;
     }
 }

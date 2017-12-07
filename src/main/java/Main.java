@@ -19,6 +19,7 @@ public class Main extends Canvas implements Runnable, MouseListener, MouseMotion
     Color[] colors = {Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW};
 
     public Main(){
+        this.addKeyListener(new Input(handler));
         for(int i = 0; i < 10; i++) {
             CircleSprite cs = new CircleSprite((int)Math.floor(Math.random()*600+10), (int)Math.floor(Math.random()*600+10));
             cs.setColor(colors[(int)Math.floor(Math.random()*colors.length)]);

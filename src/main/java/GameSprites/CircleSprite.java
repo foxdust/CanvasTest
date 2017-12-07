@@ -10,6 +10,7 @@ public class CircleSprite extends GameObject {
     double tempX;
     double tempY;
     double rad = 0;
+    boolean check = false;
     Color color = Color.RED;
 
     public CircleSprite(int x, int y) {
@@ -52,6 +53,9 @@ public class CircleSprite extends GameObject {
             radius = Math.sqrt( (((tempX+(width/2)) - 300)*((tempX+(width/2)) - 300)) + (((tempY+(height/2)) - 300)*((tempY+(height/2)) - 300)));
             if ((!held)&&(radius <= 200)) {
                 angle += 1;
+            }
+            if (keys.contains(32)){
+                angle+=1;
             }
             rad = Math.toRadians(angle);
             tempX = (300 -(width/2) + Math.cos(rad) * radius);
