@@ -5,6 +5,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
+import java.util.ArrayList;
 
 public class Main extends Canvas implements Runnable, MouseListener, MouseMotionListener{
     private static final long serialVersionUID = -6704652798820883887L;
@@ -15,12 +16,20 @@ public class Main extends Canvas implements Runnable, MouseListener, MouseMotion
     private int mouseX = 0;
     private int mouseY = 0;
     private Handler handler = new Handler();
+    Color[] colors = {Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW};
 
     public Main(){
-        CircleSprite test = new CircleSprite(20, 100);
-        CircleSprite test2 = new CircleSprite(100, 140);
-        handler.addObject(test);
-        handler.addObject(test2);
+        ArrayList<CircleSprite> sprites = new ArrayList<>();
+        for(int i = 0; i < 10; i++) {
+            CircleSprite cs = new CircleSprite((int)Math.floor(Math.random()*600+10), (int)Math.floor(Math.random()*600+10));
+            cs.setColor(colors[(int)Math.floor(Math.random()*colors.length)]);
+            sprites.add(cs);
+
+        }
+        for (CircleSprite c:sprites
+             ) {
+            handler.addObject(c);
+        }
         new View(800, 600, "Spinny", this);
         addMouseMotionListener(this);
         addMouseListener(this);
@@ -46,7 +55,6 @@ public class Main extends Canvas implements Runnable, MouseListener, MouseMotion
                 render();
             frames++;
             if(System.currentTimeMillis() - timer > 1000) {
-                handler.fpstick();
                 timer += 1000;
                 //System.out.println("FPS: "+ frames);
                 frames = 0; }

@@ -10,12 +10,6 @@ public class Handler {
         for (GameObject go:sprites
                 ) {
             go.tick(mouseX, mouseY);
-            //go.tick();
-        }
-    }
-    public void fpstick(){
-        for (GameObject go:sprites
-                ) {
             go.tick();
         }
     }
