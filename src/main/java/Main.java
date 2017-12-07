@@ -73,8 +73,8 @@ public class Main extends Canvas implements Runnable, MouseListener, MouseMotion
         Graphics g = bs.getDrawGraphics();
         g.setColor(Color.BLACK);
         g.fillRect(0,0, WIDTH, HEIGHT);
-        g.setColor(Color.BLUE);
-        g.fillOval(290, 290, 20, 20);
+        g.setColor(Color.GRAY);
+        g.fillOval(100, 100, 400, 400);
         g.drawLine(300,300,800,300);
         handler.render(g);
 

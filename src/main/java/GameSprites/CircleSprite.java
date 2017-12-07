@@ -50,7 +50,7 @@ public class CircleSprite extends GameObject {
             rad = Math.atan2((tempY+(height/2)) - 300, (tempX+(width/2)) - 300);
             angle = Math.toDegrees(rad);
             radius = Math.sqrt( (((tempX+(width/2)) - 300)*((tempX+(width/2)) - 300)) + (((tempY+(height/2)) - 300)*((tempY+(height/2)) - 300)));
-            if (!held) {
+            if ((!held)&&(radius <= 200)) {
                 angle += 1;
             }
             rad = Math.toRadians(angle);
@@ -73,9 +73,10 @@ public class CircleSprite extends GameObject {
         if (anglez < 0) { anglez += 360; }
 
 
-        Stroke STROKE = new BasicStroke(3f);
+        Stroke STROKE = new BasicStroke(1f);
         Color ARC_COLOR = Color.red;
-        Arc2D arc = new Arc2D.Double(300-(radius) , 300-(radius), radius*2, radius*2, 0 , anglez, Arc2D.OPEN);;
+//        Arc2D arc = new Arc2D.Double(300-(radius) , 300-(radius), radius*2, radius*2, 0 , anglez, Arc2D.OPEN);;
+        Arc2D arc = new Arc2D.Double(300-(radius) , 300-(radius), radius*2, radius*2, 0 , 360, Arc2D.OPEN);;
 
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setStroke(STROKE);
