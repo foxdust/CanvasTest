@@ -54,7 +54,10 @@ public class CircleSprite extends GameObject {
             if ((!held)&&(radius <= 200)) {
                 angle += 1;
             }
-            if (keys.contains(32)){
+            if (keys.contains(37)){
+                angle-=1;
+            }
+            else if (keys.contains(39)){
                 angle+=1;
             }
             rad = Math.toRadians(angle);
