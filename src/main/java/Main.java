@@ -1,11 +1,15 @@
 import GameSprites.CircleSprite;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferStrategy;
-import java.util.ArrayList;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class Main extends Canvas implements Runnable, MouseListener, MouseMotionListener{
     private static final long serialVersionUID = -6704652798820883887L;
@@ -15,19 +19,33 @@ public class Main extends Canvas implements Runnable, MouseListener, MouseMotion
     private int HEIGHT = 600;
     private int mouseX = 0;
     private int mouseY = 0;
+    private int angle = 0;
+    private BufferedImage pizza;
     private Handler handler = new Handler();
     Color[] colors = {Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW};
 
+
     public Main(){
+
+        ResourceLoader resource = new ResourceLoader();
+
+        pizza = new BufferedImage(400,400,BufferedImage.TYPE_INT_ARGB);
+        try {
+            pizza = ImageIO.read(ResourceLoader.getResource("images/pizza.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         this.addKeyListener(new Input(handler));
         for(int i = 0; i < 10; i++) {
-            CircleSprite cs = new CircleSprite((int)Math.floor(Math.random()*600+10), (int)Math.floor(Math.random()*600+10));
+            CircleSprite cs = new CircleSprite((int)Math.floor(Math.random()*300+100), (int)Math.floor(Math.random()*300+100));
             cs.setColor(colors[(int)Math.floor(Math.random()*colors.length)]);
             handler.addObject(cs);
         }
         new View(800, 600, "Spinny", this);
         addMouseMotionListener(this);
         addMouseListener(this);
+        this.requestFocus();
     }
     public static void main(String[] args) {
         new Main();
@@ -57,6 +75,7 @@ public class Main extends Canvas implements Runnable, MouseListener, MouseMotion
     }
 
     public void tick(){
+        angle++;
         handler.tick(mouseX, mouseY);
     }
     public void render() {
@@ -71,6 +90,29 @@ public class Main extends Canvas implements Runnable, MouseListener, MouseMotion
         g.setColor(Color.GRAY);
         g.fillOval(100, 100, 400, 400);
         g.drawLine(300,300,800,300);
+
+        Graphics2D g2 = (Graphics2D)g.create();
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+
+
+        // The required drawing location
+        int drawLocationX = 100;
+        int drawLocationY = 100;
+
+        // Rotation information
+
+        double rotationRequired = Math.toRadians (angle);
+        double locationX = pizza.getWidth() / 2;
+        double locationY = pizza.getHeight() / 2;
+        AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
+        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+
+        // Drawing the rotated image at the required drawing locations
+        g2.drawImage(op.filter(pizza, null), drawLocationX, drawLocationY, null);
+
+        g2.dispose();
+
         handler.render(g);
 
         bs.show();
