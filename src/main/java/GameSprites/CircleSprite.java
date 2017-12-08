@@ -11,6 +11,7 @@ import java.io.IOException;
 
 public class CircleSprite extends GameObject {
     double angle = 160;
+    double rotationAngle = 0;
     double radius = 25;
     double tempX;
     double tempY;
@@ -27,15 +28,16 @@ public class CircleSprite extends GameObject {
         tempX = x;
         this.y = y;
         tempY = y;
-        width = 50;
-        height = 50;
-        scalar = Math.random()*3+0.5;
+        width = 32;
+        height = 32;
+        scalar = Math.random()*1.2+0.8;
+        defaultrotation = (int) Math.floor(Math.random()*360);
 
         String[] options = {"images/blackolive.png", "images/mushroom.png", "images/pepperoni.png", "images/sausage.png"};
         try {
             String topping = options[(int) Math.floor(Math.random()*options.length)];
             System.out.println(topping);
-            image = ImageIO.read(ResourceLoader.getResource("images/mushroom.png"));
+            image = ImageIO.read(ResourceLoader.getResource(topping));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -91,7 +93,7 @@ public class CircleSprite extends GameObject {
 
     public void render(Graphics g) {
         g.setColor(color);
-        g.fillOval(this.x, this.y, this.width,this.height);
+        //g.fillOval(this.x, this.y, this.width,this.height);
 /*
         double radz = Math.atan2(300 - (y+(height/2)), (x+(width/2)) - 300);
         double anglez = (radz * (180/Math.PI));
@@ -111,30 +113,26 @@ public class CircleSprite extends GameObject {
         g2.setColor(color);
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.draw(new Line2D.Double(this.x+(this.width/2), this.y+(this.width/2), 300, 300));
+//        g2.draw(new Line2D.Double(this.x+(this.width/2), this.y+(this.width/2), 300, 300));
         if (arc != null) {
-            g2.draw(arc);
+//            g2.draw(arc);
         }
 
         // Rotation information
 
-        double width = this.width;
-        double height = this.height;
-
-        //double scalar = 0.51;
-
-        width = width*scalar;
-        height = height * scalar;
+        double width = this.width*scalar;
+        double height = this.height*scalar;
 
         double rotationRequired = Math.toRadians (angle);
-        double locationX = image.getWidth()*scalar / 2;
-        double locationY = image.getHeight()*scalar / 2;
-        AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
+        rotationAngle += 5;
+        double locationX = this.width*scalar / 2;
+        double locationY = this.height*scalar / 2;
+        AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired+defaultrotation, locationX, locationY);
         //tx.concatenate(AffineTransform.getTranslateInstance(x1, x2));
         tx.concatenate(AffineTransform.getScaleInstance((double)width/(double)image.getWidth(), (double)height/(double)image.getHeight()));
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
         // Drawing the rotated image at the required drawing locations
-        g2.drawImage(op.filter(image, null), x-(int)((image.getWidth()*scalar)/image.getWidth()), y-(int)((image.getHeight()*scalar)/image.getHeight()), null);
+        g2.drawImage(op.filter(image, null), this.x-(int)(width/2)+this.width/2, this.y-(int)(height/2)+this.width/2, null);
 
 
         g2.dispose();
