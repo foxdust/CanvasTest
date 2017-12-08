@@ -1,23 +1,44 @@
 package GameSprites;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Line2D;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class CircleSprite extends GameObject {
     double angle = 160;
-    double radius = 30;
+    double radius = 25;
     double tempX;
     double tempY;
     double rad = 0;
+    double scalar = 0;
+    int defaultrotation = 90;
     boolean check = false;
     Color color = Color.RED;
+
+    BufferedImage image = new BufferedImage(50,50,BufferedImage.TYPE_INT_ARGB);
 
     public CircleSprite(int x, int y) {
         this.x = x;
         tempX = x;
         this.y = y;
         tempY = y;
+        width = 50;
+        height = 50;
+        scalar = Math.random()*3+0.5;
+
+        String[] options = {"images/blackolive.png", "images/mushroom.png", "images/pepperoni.png", "images/sausage.png"};
+        try {
+            String topping = options[(int) Math.floor(Math.random()*options.length)];
+            System.out.println(topping);
+            image = ImageIO.read(ResourceLoader.getResource("images/mushroom.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setColor(Color color) {
@@ -94,6 +115,28 @@ public class CircleSprite extends GameObject {
         if (arc != null) {
             g2.draw(arc);
         }
+
+        // Rotation information
+
+        double width = this.width;
+        double height = this.height;
+
+        //double scalar = 0.51;
+
+        width = width*scalar;
+        height = height * scalar;
+
+        double rotationRequired = Math.toRadians (angle);
+        double locationX = image.getWidth()*scalar / 2;
+        double locationY = image.getHeight()*scalar / 2;
+        AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
+        //tx.concatenate(AffineTransform.getTranslateInstance(x1, x2));
+        tx.concatenate(AffineTransform.getScaleInstance((double)width/(double)image.getWidth(), (double)height/(double)image.getHeight()));
+        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+        // Drawing the rotated image at the required drawing locations
+        g2.drawImage(op.filter(image, null), x-(int)((image.getWidth()*scalar)/image.getWidth()), y-(int)((image.getHeight()*scalar)/image.getHeight()), null);
+
+
         g2.dispose();
     }
 }

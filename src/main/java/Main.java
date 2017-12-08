@@ -1,11 +1,15 @@
 import GameSprites.CircleSprite;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferStrategy;
-import java.util.ArrayList;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class Main extends Canvas implements Runnable, MouseListener, MouseMotionListener{
     private static final long serialVersionUID = -6704652798820883887L;
@@ -15,8 +19,10 @@ public class Main extends Canvas implements Runnable, MouseListener, MouseMotion
     private int HEIGHT = 600;
     private int mouseX = 0;
     private int mouseY = 0;
+    private int angle = 0;
     private Handler handler = new Handler();
     Color[] colors = {Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW};
+
 
     public Main(){
         this.addKeyListener(new Input(handler));
@@ -28,6 +34,7 @@ public class Main extends Canvas implements Runnable, MouseListener, MouseMotion
         new View(800, 600, "Spinny", this);
         addMouseMotionListener(this);
         addMouseListener(this);
+        this.requestFocus();
     }
     public static void main(String[] args) {
         new Main();
@@ -57,6 +64,7 @@ public class Main extends Canvas implements Runnable, MouseListener, MouseMotion
     }
 
     public void tick(){
+        angle++;
         handler.tick(mouseX, mouseY);
     }
     public void render() {
@@ -71,6 +79,37 @@ public class Main extends Canvas implements Runnable, MouseListener, MouseMotion
         g.setColor(Color.GRAY);
         g.fillOval(100, 100, 400, 400);
         g.drawLine(300,300,800,300);
+
+        ResourceLoader resource = new ResourceLoader();
+
+        BufferedImage image = new BufferedImage(300,300,BufferedImage.TYPE_INT_ARGB);
+        try {
+            image = ImageIO.read(ResourceLoader.getResource("images/pizza.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Graphics2D g2 = (Graphics2D)g.create();
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+
+
+        // The required drawing location
+        int drawLocationX = 200;
+        int drawLocationY = 200;
+
+        // Rotation information
+
+        double rotationRequired = Math.toRadians (angle);
+        double locationX = image.getWidth() / 2;
+        double locationY = image.getHeight() / 2;
+        AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
+        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+
+        // Drawing the rotated image at the required drawing locations
+        g2.drawImage(op.filter(image, null), drawLocationX, drawLocationY, null);
+
+        g2.dispose();
+
         handler.render(g);
 
         bs.show();
