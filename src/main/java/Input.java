@@ -1,6 +1,4 @@
-import GameSprites.CircleSprite;
 import GameSprites.GameObject;
-import sun.awt.image.ImageWatched;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -19,8 +17,8 @@ public class Input extends KeyAdapter {
     public void keyPressed(KeyEvent e){
         keys.add(e.getKeyCode());
         System.out.println(keys);
-        LinkedList<CircleSprite> sprites = handler.getSprites();
-        for (CircleSprite go:sprites
+        LinkedList<GameObject> sprites = handler.getSprites();
+        for (GameObject go:sprites
              ) {
             go.setKeys(keys);
         }
@@ -29,8 +27,8 @@ public class Input extends KeyAdapter {
     public void keyReleased(KeyEvent e){
         keys.remove(e.getKeyCode());
         System.out.println(keys);
-        LinkedList<CircleSprite> sprites = handler.getSprites();
-        for (CircleSprite go : sprites
+        LinkedList<GameObject> sprites = handler.getSprites();
+        for (GameObject go : sprites
                 ) {
             go.setKeys(keys);
         }

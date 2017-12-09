@@ -7,7 +7,7 @@ import java.util.List;
 public class ResourceLoader {
 
     public static URL getResource(String resource) {
-        final List<ClassLoader> classLoaders = new ArrayList<ClassLoader>();
+        final List<ClassLoader> classLoaders = new ArrayList<>();
         classLoaders.add(Thread.currentThread().getContextClassLoader());
         classLoaders.add(ResourceLoader.class.getClassLoader());
 

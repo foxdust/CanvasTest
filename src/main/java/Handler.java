@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.awt.Graphics;
 
 public class Handler {
-    private LinkedList<GameObject> sprites = new LinkedList<GameObject>();
+    private LinkedList<GameObject> sprites = new LinkedList<>();
 
     public LinkedList getSprites(){
         return sprites;
@@ -36,7 +36,7 @@ public class Handler {
         boolean check = false;
         for (GameObject go:sprites
                 ) {
-            if (check == false) {
+            if (!check) {
                 check = go.holdcheck(mouseX, mouseY);
             }
         }
