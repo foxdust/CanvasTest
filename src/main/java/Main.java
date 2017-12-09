@@ -10,6 +10,7 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Objects;
 
 public class Main extends Canvas implements Runnable, MouseListener, MouseMotionListener{
     private static final long serialVersionUID = -6704652798820883887L;
@@ -22,16 +23,16 @@ public class Main extends Canvas implements Runnable, MouseListener, MouseMotion
     private int angle = 0;
     private BufferedImage pizza;
     private Handler handler = new Handler();
-    Color[] colors = {Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW};
+    private Color[] colors = {Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW};
 
 
-    public Main(){
+    private Main(){
 
         ResourceLoader resource = new ResourceLoader();
 
         pizza = new BufferedImage(400,400,BufferedImage.TYPE_INT_ARGB);
         try {
-            pizza = ImageIO.read(ResourceLoader.getResource("images/pizza.png"));
+            pizza = ImageIO.read(Objects.requireNonNull(ResourceLoader.getResource("images/pizza.png")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -74,11 +75,11 @@ public class Main extends Canvas implements Runnable, MouseListener, MouseMotion
         } stop();
     }
 
-    public void tick(){
+    private void tick(){
         angle++;
         handler.tick(mouseX, mouseY);
     }
-    public void render() {
+    private void render() {
         BufferStrategy bs = this.getBufferStrategy();
         if (bs == null){
             this.createBufferStrategy(3);
@@ -124,7 +125,7 @@ public class Main extends Canvas implements Runnable, MouseListener, MouseMotion
         running = true;
     }
 
-    public synchronized void stop(){
+    private synchronized void stop(){
         try {
             thread.join();
             running = false;
