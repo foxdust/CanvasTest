@@ -1,6 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Actual canvas class, creates JFrame
+ */
 public class View extends Canvas {
 
     private static final long serialVersionUID = -8215973777232473220L;

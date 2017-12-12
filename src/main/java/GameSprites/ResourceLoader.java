@@ -6,6 +6,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class to load eternal images
+ */
 public class ResourceLoader {
 
     public static URL getResource(String resource) {

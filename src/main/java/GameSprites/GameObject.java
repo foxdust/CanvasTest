@@ -2,6 +2,10 @@ package GameSprites;
 
 import java.util.LinkedHashSet;
 
+/**
+ * Game Object class, for interactable objects
+ * Adds check for being held and dragged around to base sprite
+ */
 public abstract class GameObject implements Sprites {
     protected int x, y;
     protected int width, height;
