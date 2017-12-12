@@ -9,6 +9,9 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * This is now a Pizza Topping sprite rather than a circle!
+ */
 public class CircleSprite extends GameObject {
     private double angle = 160;
     private double rotationAngle = 0;

@@ -2,6 +2,9 @@ package GameSprites;
 
 import java.awt.Graphics;
 
+/**
+ * Interface for visible objects
+ */
 public interface Sprites {
     void setX(int x);
     void setY(int y);

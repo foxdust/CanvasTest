@@ -5,6 +5,9 @@ import java.awt.event.KeyEvent;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 
+/**
+ * Input class, handles keypress checks
+ */
 public class Input extends KeyAdapter {
 
     private Handler handler;

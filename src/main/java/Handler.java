@@ -3,6 +3,10 @@ import GameSprites.GameObject;
 import java.util.LinkedList;
 import java.awt.Graphics;
 
+/**
+ * Handler for all objects, loops through tick and render functions
+ * Also loops through checking for a held object and letting it go
+ */
 public class Handler {
     private LinkedList<GameObject> sprites = new LinkedList<>();
 
