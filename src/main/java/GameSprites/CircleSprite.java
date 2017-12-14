@@ -14,13 +14,13 @@ import java.util.Objects;
  */
 public class CircleSprite extends GameObject {
     private double angle = 160;
-    private double rotationAngle = 0;
     private double radius = 25;
     private double tempX;
     private double tempY;
     private double rad = 0;
     private double scalar;
-    private int defaultrotation;
+    private double defaultrotation;
+    private double currentRotation;
     private Color color = Color.RED;
 
     private BufferedImage image = new BufferedImage(50,50,BufferedImage.TYPE_INT_ARGB);
@@ -33,7 +33,8 @@ public class CircleSprite extends GameObject {
         width = 32;
         height = 32;
         scalar = Math.random()*1.2+0.8;
-        defaultrotation = (int) Math.floor(Math.random()*360);
+        defaultrotation = Math.random()*Math.PI*2;
+        currentRotation = defaultrotation;
 
         String[] options = {"images/blackolive.png", "images/mushroom.png", "images/pepperoni.png", "images/sausage.png"};
         try {
@@ -111,10 +112,32 @@ public class CircleSprite extends GameObject {
         double height = this.height*scalar;
 
         double rotationRequired = Math.toRadians (angle);
-        rotationAngle += 5;
         double locationX = this.width*scalar / 2;
         double locationY = this.height*scalar / 2;
-        AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired+defaultrotation, locationX, locationY);
+        if (released) {
+            this.released = false;
+            double tempRotation = Math.toDegrees(currentRotation);
+            if (tempRotation < 0) {
+                tempRotation = 360 + tempRotation;
+            }
+            double tempAngle = angle;
+            if (tempAngle < 0){
+                tempAngle = 360 + tempAngle;
+            }
+            double tempNewRotation = tempRotation - tempAngle;
+            if (tempNewRotation > 180) {
+                tempNewRotation = tempNewRotation - 360;
+            }
+            System.out.println(tempRotation+" "+tempAngle+" "+tempNewRotation);
+            defaultrotation = Math.toRadians(tempNewRotation);
+        }
+        if (!held) {
+            currentRotation = rotationRequired + defaultrotation;
+        }
+        if (held) {
+            //System.out.println(Math.toDegrees(currentRotation));
+        }
+        AffineTransform tx = AffineTransform.getRotateInstance(currentRotation, locationX, locationY);
         tx.concatenate(AffineTransform.getScaleInstance(width/(double)image.getWidth(), height/(double)image.getHeight()));
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
         // Drawing the rotated image at the required drawing locations

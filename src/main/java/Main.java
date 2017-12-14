@@ -98,8 +98,8 @@ public class Main extends Canvas implements Runnable, MouseListener, MouseMotion
 
 
         // The required drawing location
-        int drawLocationX = 100;
-        int drawLocationY = 100;
+        int drawLocationX = 300;
+        int drawLocationY = 300;
 
         // Rotation information
 
@@ -110,7 +110,8 @@ public class Main extends Canvas implements Runnable, MouseListener, MouseMotion
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 
         // Drawing the rotated image at the required drawing locations
-        g2.drawImage(op.filter(pizza, null), drawLocationX, drawLocationY, null);
+        g2.drawImage(op.filter(pizza, null), drawLocationX-pizza.getWidth()/2, drawLocationY-pizza.getHeight()/2, null);
+        //g2.fillOval(drawLocationX-340/2, drawLocationY-340/2, 340, 340);
 
         g2.dispose();
 

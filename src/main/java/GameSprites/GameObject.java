@@ -10,6 +10,7 @@ public abstract class GameObject implements Sprites {
     protected int x, y;
     protected int width, height;
     protected boolean held = false;
+    protected boolean released = false;
     protected LinkedHashSet<Integer> keys = new LinkedHashSet<>();
 
     public GameObject(){
@@ -21,7 +22,10 @@ public abstract class GameObject implements Sprites {
     public GameObject(int x, int y){
     }
     public void letgo(){
-        held = false;
+        if (held) {
+            held = false;
+            released = true;
+        }
     }
     public boolean holdcheck(int mouseX, int mouseY){
         if ((mouseX >= x)&&(mouseX <= x+width)&&(mouseY >= y)&&(mouseY <= y+height)) {
