@@ -93,19 +93,9 @@ public class CircleSprite extends GameObject {
 
     public void render(Graphics g) {
         g.setColor(color);
-        //g.fillOval(this.x, this.y, this.width,this.height);
-/*
-        double radz = Math.atan2(300 - (y+(height/2)), (x+(width/2)) - 300);
-        double anglez = (radz * (180/Math.PI));
-        double radiusz = Math.sqrt( (((x+(width/2)) - 300)*((x+(width/2)) - 300)) + (((y+(height/2)) - 300)*((y+(height/2)) - 300)));
-*/
-//        double anglez = -angle;
-//        if (anglez < 0) { anglez += 360; }
-
 
         Stroke STROKE = new BasicStroke(1f);
         Color ARC_COLOR = Color.red;
-//        Arc2D arc = new Arc2D.Double(300-(radius) , 300-(radius), radius*2, radius*2, 0 , anglez, Arc2D.OPEN);;
         Arc2D arc = new Arc2D.Double(300-(radius) , 300-(radius), radius*2, radius*2, 0 , 360, Arc2D.OPEN);
 
         Graphics2D g2 = (Graphics2D) g.create();
@@ -113,12 +103,9 @@ public class CircleSprite extends GameObject {
         g2.setColor(color);
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
-//        g2.draw(new Line2D.Double(this.x+(this.width/2), this.y+(this.width/2), 300, 300));
 //        if (arc != null) {
 //            g2.draw(arc);
 //       }
-
-        // Rotation information
 
         double width = this.width*scalar;
         double height = this.height*scalar;
@@ -128,8 +115,7 @@ public class CircleSprite extends GameObject {
         double locationX = this.width*scalar / 2;
         double locationY = this.height*scalar / 2;
         AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired+defaultrotation, locationX, locationY);
-        //tx.concatenate(AffineTransform.getTranslateInstance(x1, x2));
-        tx.concatenate(AffineTransform.getScaleInstance((double)width/(double)image.getWidth(), (double)height/(double)image.getHeight()));
+        tx.concatenate(AffineTransform.getScaleInstance(width/(double)image.getWidth(), height/(double)image.getHeight()));
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
         // Drawing the rotated image at the required drawing locations
         g2.drawImage(op.filter(image, null), this.x-(int)(width/2)+this.width/2, this.y-(int)(height/2)+this.width/2, null);
