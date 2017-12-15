@@ -26,6 +26,7 @@ public class CircleSprite extends GameObject {
     private BufferedImage image = new BufferedImage(50,50,BufferedImage.TYPE_INT_ARGB);
 
     public CircleSprite(int x, int y) {
+        holdable = true;
         this.x = x;
         tempX = x;
         this.y = y;

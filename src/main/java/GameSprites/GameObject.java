@@ -9,6 +9,7 @@ import java.util.LinkedHashSet;
 public abstract class GameObject implements Sprites {
     protected int x, y;
     protected int width, height;
+    protected boolean holdable = false;
     protected boolean held = false;
     protected boolean released = false;
     protected LinkedHashSet<Integer> keys = new LinkedHashSet<>();
@@ -28,9 +29,11 @@ public abstract class GameObject implements Sprites {
         }
     }
     public boolean holdcheck(int mouseX, int mouseY){
-        if ((mouseX >= x)&&(mouseX <= x+width)&&(mouseY >= y)&&(mouseY <= y+height)) {
-            held = true;
-            return true;
+        if (holdable) {
+            if ((mouseX >= x) && (mouseX <= x + width) && (mouseY >= y) && (mouseY <= y + height)) {
+                held = true;
+                return true;
+            }
         }
         return false;
     }

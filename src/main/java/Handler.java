@@ -23,9 +23,8 @@ public class Handler {
     }
 
     public void render(Graphics g){
-        for (GameObject go:sprites
-                ) {
-            go.render(g);
+        for (int i = 0; i < sprites.size(); i++){
+            sprites.get(i).render(g);
         }
     }
 
@@ -38,11 +37,18 @@ public class Handler {
 
     public void holdcheck(int mouseX, int mouseY){
         boolean check = false;
-        for (GameObject go:sprites
-                ) {
+        GameObject obj = null;
+        for (int i = sprites.size()-1; i >= 0; i--){
             if (!check) {
-                check = go.holdcheck(mouseX, mouseY);
+                check = sprites.get(i).holdcheck(mouseX, mouseY);
+                if (check) {
+                    obj = sprites.get(i);
+                }
             }
+        }
+        if (obj != null) {
+            sprites.remove(obj);
+            sprites.add(obj);
         }
     }
 
