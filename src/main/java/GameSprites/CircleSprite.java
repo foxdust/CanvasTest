@@ -18,7 +18,6 @@ public class CircleSprite extends GameObject {
     private double tempX;
     private double tempY;
     private double rad = 0;
-    private double scalar;
     private double defaultrotation;
     private double currentRotation;
     private Color color = Color.RED;
@@ -33,7 +32,7 @@ public class CircleSprite extends GameObject {
         tempY = y;
         width = 32;
         height = 32;
-        scalar = Math.random()*1.2+0.8;
+        scale = Math.random()*1.2+0.8;
         defaultrotation = Math.random()*Math.PI*2;
         currentRotation = defaultrotation;
 
@@ -86,6 +85,12 @@ public class CircleSprite extends GameObject {
         else if (keys.contains(39)){
             angle+=1;
         }
+        else if (keys.contains(38)){
+            renderScale-=0.01;
+        }
+        else if (keys.contains(40)){
+            renderScale+=0.01;
+        }
         rad = Math.toRadians(angle);
         tempX = (300 -(width/2) + Math.cos(rad) * radius);
         tempY = (300 -(height/2) + Math.sin(rad) * radius);
@@ -108,6 +113,8 @@ public class CircleSprite extends GameObject {
 //        if (arc != null) {
 //            g2.draw(arc);
 //       }
+
+        double scalar = this.scale * this.renderScale;
 
         double width = this.width*scalar;
         double height = this.height*scalar;
@@ -143,7 +150,7 @@ public class CircleSprite extends GameObject {
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
         // Drawing the rotated image at the required drawing locations
         g2.drawImage(op.filter(image, null), this.x-(int)(width/2)+this.width/2, this.y-(int)(height/2)+this.width/2, null);
-
+        g2.drawRect(this.x-(int)(width/2)+this.width/2, this.y-(int)(height/2)+this.width/2, (int)width, (int)height);
         g2.dispose();
     }
 }

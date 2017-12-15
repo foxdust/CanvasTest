@@ -12,6 +12,9 @@ public abstract class GameObject implements Sprites {
     protected boolean holdable = false;
     protected boolean held = false;
     protected boolean released = false;
+    protected double scale = 1;
+    protected double renderScale = 1;
+    protected double grabLenience = 0.1;
     protected LinkedHashSet<Integer> keys = new LinkedHashSet<>();
 
     public GameObject(){
@@ -30,7 +33,13 @@ public abstract class GameObject implements Sprites {
     }
     public boolean holdcheck(int mouseX, int mouseY){
         if (holdable) {
-            if ((mouseX >= x) && (mouseX <= x + width) && (mouseY >= y) && (mouseY <= y + height)) {
+            double scalar = this.scale * this.renderScale;
+            double width = this.width*scalar;
+            System.out.println(scalar);
+            double height = this.height*scalar;
+            int hitX = this.x-(int)(width/2)+this.width/2;
+            int hitY = this.y-(int)(height/2)+this.width/2;
+            if ((mouseX >= hitX+(width*grabLenience)) && (mouseX <= hitX + width - (width*grabLenience)) && (mouseY >= hitY + (height*grabLenience)) && (mouseY <= hitY + height - (height*grabLenience))) {
                 held = true;
                 return true;
             }
